@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+  <div class="container-fluid">
+    <a class="appName navbar-brand" [routerLink]="['events']">
+      {{title}}
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse row justify-content-between" id="navbarNav">
+      <ul class="nav navbar-nav">
+        <li class="nav-item col-lg-10 col-sm-12 transactionsLink" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+          <a class="nav-link" [routerLink]="['events']">Events</a>
+        </li>
+        <!--<li class="nav-item col-lg-2 col-sm-12 d-flex justify-content-end">
+          <mat-menu #menu="matMenu" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+            <a mat-menu-item [routerLink]="['artirsts']" class="nav-link">
+              Artists
+            </a>
+            <a mat-menu-item [routerLink]="['hosts']" class="nav-link">
+              Hosts
+            </a>
+          </mat-menu>
+        </li>-->
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
