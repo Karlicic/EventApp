@@ -1,5 +1,6 @@
 export interface ISaveEventView {
-  id: number,
+  title: string,
   description: string,
+  //dateTime: Date,
   price: number
 }

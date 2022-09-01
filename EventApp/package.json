@@ -24,6 +24,7 @@
     "@angular/router": "^14.1.3",
     "bootstrap": "^5.2.0",
     "jest-editor-support": "*",
+    "ngx-toastr": "^15.0.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

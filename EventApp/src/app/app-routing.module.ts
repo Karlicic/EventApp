@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NavbarLayoutComponent } from './navbar-layout/navbar-layout.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: '/events', pathMatch: 'full' },
   {
     path: '',
     component: NavbarLayoutComponent,

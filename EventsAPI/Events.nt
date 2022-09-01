@@ -1,0 +1,6 @@
+<https://localhost:4200/events/06c832fc-fb26-4c32-a73f-fc756d078057> <dc:description> "fff" .
+<https://localhost:4200/events/ed851982-fd3d-430e-b04c-ae664badf0f2> <dc:title> "hjdjhdjk" .
+<https://localhost:4200/events/ed851982-fd3d-430e-b04c-ae664badf0f2> <dc:description> "jjhh" .
+<https://localhost:4200/events/f2147884-67ad-450d-b5bd-18e7c8cb6ad1> <dc:title> "Test" .
+<https://localhost:4200/events/f2147884-67ad-450d-b5bd-18e7c8cb6ad1> <dc:description> "TEst" .
+<https://localhost:4200/events/f2147884-67ad-450d-b5bd-18e7c8cb6ad1> <dbp:price> "123"^^<http://www.w3.org/2001/XMLSchema#double> .

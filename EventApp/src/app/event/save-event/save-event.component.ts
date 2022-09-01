@@ -4,6 +4,8 @@ import { ArtistService } from '../../artist/artist.service';
 import { EventListComponent } from '../event-list/event-list.component';
 import { EventService } from '../event.sevrice';
 import { IArtistsStageName } from '../models/artist-stage-name';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-save-event',
@@ -12,11 +14,13 @@ import { IArtistsStageName } from '../models/artist-stage-name';
 })
 export class SaveEventComponent implements OnInit {
 
-  title: string = 'Create Event';
+  modalTitle: string = 'Create Event';
   artists: IArtistsStageName[] = [];
 
   description!: string;
   price!: number;
+  title!: string;
+//  picker!: Date;
   errorStatus: number | undefined;
   saveButtonFlag: boolean = false;
 
@@ -29,7 +33,7 @@ export class SaveEventComponent implements OnInit {
 
   async saveEvent(): Promise<void> {
     this.saveButtonFlag = true;
-    const e = { id: 0, price: this.price, description: this.description }
+    const e = { title: this.title, description: this.description, price: this.price }
     var response = await this.eventService.createEvent(e);
     //if (response.hasError) {
     //  this.toastrService.error(response.error.error.detail);
@@ -38,4 +42,14 @@ export class SaveEventComponent implements OnInit {
     this.dialogRef.close(true);
   }
 
+  changeInfo(event: any) {
+    if (this.errorStatus == 400) {
+      this.saveButtonFlag = false;
+      this.errorStatus = undefined;
+    }
+  }
+
+  onCancel() {
+    this.dialogRef.close();
+  }
 }

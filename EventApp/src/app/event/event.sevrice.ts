@@ -8,7 +8,7 @@ import { ISaveEventView } from "./models/save-event-view";
 })
 export class EventService {
 
-  private eventUrl = "https://localhost:7218/api/events";
+  private eventUrl = "https://localhost:7287/api/events";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -28,7 +28,7 @@ export class EventService {
 
   //create
   createEvent(event: ISaveEventView) {
-    return this.httpClient.post(this.eventUrl, event);
+    return this.httpClient.post(this.eventUrl, event).toPromise();
   }
 
   //update

@@ -21,8 +21,8 @@ export class EventListComponent implements OnInit {
 
   createEvent(): void {
     let dialogRef = this.matDialog.open(SaveEventComponent, {
-      width: '540px',
-      height: '450px'
+      width: '1000px',
+      height: '750px'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
