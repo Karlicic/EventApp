@@ -1,0 +1,22 @@
+<!--TO DO: Style form-->
+<form class="host-form" #f="ngForm" (ngSubmit)="saveHost()">
+  <h1 mat-dialog-title class="col-md-12">{{modalTitle}}</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill" class="col-md-12">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" name="name" id="name" [(ngModel)]="name" placeholder="Enter your Name" (keydown)="changeInfo($event)" required />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-md-12">
+      <mat-label>Page</mat-label>
+      <input matInput type="text" name="page" id="page" [(ngModel)]="page" placeholder="Enter your page" (keydown)="changeInfo($event)" required />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="col-md-12">
+      <mat-label>Address</mat-label>
+      <input matInput type="text" name="address" id="address" [(ngModel)]="address" placeholder="Enter your address" (keydown)="changeInfo($event)" required />
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" class="btn-size" type="submit" [disabled]="!f.valid || saveButtonFlag">Save</button>&nbsp;&nbsp;
+    <button mat-raised-button color="warn" (click)="onCancel()" type="button" class="btn-size">Back</button>
+  </div>
+</form>

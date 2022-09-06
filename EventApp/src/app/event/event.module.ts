@@ -13,6 +13,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+
 
 
 
@@ -34,7 +36,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ToastrModule,
     TextFieldModule,
     MatInputModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatSelectModule
   ],
   exports: [RouterModule],
   schemas: [

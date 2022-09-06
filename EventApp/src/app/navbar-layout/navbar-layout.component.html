@@ -12,16 +12,17 @@
         <li class="nav-item col-lg-10 col-sm-12 transactionsLink" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
           <a class="nav-link" [routerLink]="['events']">Events</a>
         </li>
-        <!--<li class="nav-item col-lg-2 col-sm-12 d-flex justify-content-end">
+        <li class="nav-item col-lg-2 col-sm-12 d-flex justify-content-end">
+          <button mat-button [matMenuTriggerFor]="menu">Sign Up</button>
           <mat-menu #menu="matMenu" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-            <a mat-menu-item [routerLink]="['artirsts']" class="nav-link">
-              Artists
+            <a mat-menu-item [routerLink]="['hosts/save-host']" class="nav-link">
+              As a Host
             </a>
-            <a mat-menu-item [routerLink]="['hosts']" class="nav-link">
-              Hosts
+            <a mat-menu-item [routerLink]="['artists/save-artist']" class="nav-link">
+              As an Artist
             </a>
           </mat-menu>
-        </li>-->
+        </li>
       </ul>
     </div>
   </div>

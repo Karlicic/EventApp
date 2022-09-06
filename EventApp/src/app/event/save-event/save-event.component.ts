@@ -5,6 +5,8 @@ import { EventListComponent } from '../event-list/event-list.component';
 import { EventService } from '../event.sevrice';
 import { IArtistsStageName } from '../models/artist-stage-name';
 import { ToastrService } from 'ngx-toastr';
+import { HostService } from '../../host/host.service';
+import { IHostNameView } from '../../host/models/host-name-view';
 
 
 @Component({
@@ -20,26 +22,33 @@ export class SaveEventComponent implements OnInit {
   description!: string;
   price!: number;
   title!: string;
-//  picker!: Date;
+  dateTime!: Date;
+  location!: string;
+  hosts!: IHostNameView[];
+  host!: string;
+
   errorStatus: number | undefined;
   saveButtonFlag: boolean = false;
 
 
   constructor(private artistService: ArtistService, private eventService: EventService,
-    private dialogRef: MatDialogRef<EventListComponent>, private toastrService: ToastrService) { }
+    private dialogRef: MatDialogRef<EventListComponent>, private toastrService: ToastrService, private hostService: HostService) { }
 
   ngOnInit(): void {
+    this.loadHosts();
   }
 
   async saveEvent(): Promise<void> {
     this.saveButtonFlag = true;
-    const e = { title: this.title, description: this.description, price: this.price }
+    const e = { title: this.title, description: this.description, date: this.dateTime, price: this.price, hostIdentifier: this.host };
     var response = await this.eventService.createEvent(e);
-    //if (response.hasError) {
-    //  this.toastrService.error(response.error.error.detail);
-    //}
-    //this.toastrService.success('Transaction was successfully added!');
+    //TO DO: Error check
     this.dialogRef.close(true);
+  }
+
+  async loadHosts(): Promise<void> {
+    var data = await this.hostService.getHosts();
+    this.hosts = data as IHostNameView[];
   }
 
   changeInfo(event: any) {

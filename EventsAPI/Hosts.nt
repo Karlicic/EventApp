@@ -1,0 +1,6 @@
+<https://localhost:4200/hosts/95916b53-3936-4495-bbbf-10ab6be88f1e> <schema:name> "MKC" .
+<https://localhost:4200/hosts/95916b53-3936-4495-bbbf-10ab6be88f1e> <org:hasSite> "https://mkc.mk/en/" .
+<https://localhost:4200/hosts/95916b53-3936-4495-bbbf-10ab6be88f1e> <schema:address> "15 MK, Dimitar Vlahov Walk 1000, Skopje 1000" .
+<https://localhost:4200/hosts/72e8e626-aee8-4ef2-93f5-2378f0234dad> <schema:name> "Public room" .
+<https://localhost:4200/hosts/72e8e626-aee8-4ef2-93f5-2378f0234dad> <org:hasSite> "http://www.publicroom.org/" .
+<https://localhost:4200/hosts/72e8e626-aee8-4ef2-93f5-2378f0234dad> <schema:address> "MK, 50-ta Divizija 22, Skopje 1000" .

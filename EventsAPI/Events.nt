@@ -1,6 +1,5 @@
-<https://localhost:4200/events/06c832fc-fb26-4c32-a73f-fc756d078057> <dc:description> "fff" .
-<https://localhost:4200/events/ed851982-fd3d-430e-b04c-ae664badf0f2> <dc:title> "hjdjhdjk" .
-<https://localhost:4200/events/ed851982-fd3d-430e-b04c-ae664badf0f2> <dc:description> "jjhh" .
-<https://localhost:4200/events/f2147884-67ad-450d-b5bd-18e7c8cb6ad1> <dc:title> "Test" .
-<https://localhost:4200/events/f2147884-67ad-450d-b5bd-18e7c8cb6ad1> <dc:description> "TEst" .
-<https://localhost:4200/events/f2147884-67ad-450d-b5bd-18e7c8cb6ad1> <dbp:price> "123"^^<http://www.w3.org/2001/XMLSchema#double> .
+<https://localhost:4200/events/84a2da95-088b-4f6c-a5a3-e625c74820d4> <dc:title> "e" .
+<https://localhost:4200/events/84a2da95-088b-4f6c-a5a3-e625c74820d4> <dc:description> "e" .
+<https://localhost:4200/events/84a2da95-088b-4f6c-a5a3-e625c74820d4> <dc:date> "9/5/2022 9:14:00 PM"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://localhost:4200/events/84a2da95-088b-4f6c-a5a3-e625c74820d4> <dbp:price> "100"^^<http://www.w3.org/2001/XMLSchema#double> .
+<https://localhost:4200/events/84a2da95-088b-4f6c-a5a3-e625c74820d4> <process-event:hasSourceHost> <https://localhost:4200/hosts/95916b53-3936-4495-bbbf-10ab6be88f1e> .

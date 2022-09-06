@@ -7,11 +7,10 @@ namespace EventsAPI.Models
         public string? Identifier { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
-        public DateTime? DateTime { get; set; }
+        public DateTime? Date { get; set; }
         //public IUriNode? Artist { get; set; }
-        //public IUriNode? Host { get; set; }
-        //public string? Location { get; set; }
+        public string? HostIdentifier { get; set; }
+        public string? Location { get; set; }
         public double? Price { get; set; }
-        //public int? Duration { get; set; }
     }
 }

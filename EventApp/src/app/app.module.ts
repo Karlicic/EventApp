@@ -11,6 +11,9 @@ import { EventModule } from './event/event.module';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { HostModule } from './host/host.module';
+import { ArtistModule } from './artist/artist.module';
 
 
 
@@ -27,8 +30,11 @@ import { MatNativeDateModule } from '@angular/material/core';
     AppRoutingModule,
     MatMenuModule,
     EventModule,
+    HostModule,
+    ArtistModule,
     RouterModule,
     MatNativeDateModule,
+    MatButtonModule,
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-top-right',
