@@ -26,7 +26,7 @@ export class SaveHostComponent implements OnInit {
     this.saveButtonFlag = true;
     const host = { name: this.name, page: this.page, address: this.address };
     var response = await this.hostService.createHost(host);
-    //TO DD: Check for error
+    //TODO: Check for error
     this.router.navigate(['/events']);
   }
 

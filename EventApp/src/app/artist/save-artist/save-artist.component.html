@@ -1,1 +1,14 @@
-<p>Save-artist works!</p>
+<!--TODO: Style form-->
+<form class="artist-form" #f="ngForm" (ngSubmit)="saveArtist()">
+  <h1 mat-dialog-title class="col-md-12">{{modalTitle}}</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill" class="col-md-12">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" name="name" id="name" [(ngModel)]="name" placeholder="Enter artist name" (keydown)="changeInfo($event)" required />
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button color="primary" class="btn-size" type="submit" [disabled]="!f.valid || saveButtonFlag">Save</button>&nbsp;&nbsp;
+    <button mat-raised-button color="warn" (click)="onCancel()" type="button" class="btn-size">Back</button>
+  </div>
+</form>
