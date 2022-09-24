@@ -22,9 +22,9 @@ export class SaveArtistComponent implements OnInit {
   async saveArtist(): Promise<void> {
     this.saveButtonFlag = true;
     const artist = { name: this.name };
-    var response = this.artistService.createArtist(artist);
+    var response = await this.artistService.createArtist(artist);
     //TODO: Error checking
-    this.router.navigate(['/events']);
+    this.router.navigate(['/artist-details']);
   }
 
   changeInfo(event: any) {

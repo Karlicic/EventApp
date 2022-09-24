@@ -34,19 +34,110 @@ namespace EventsAPI.Controllers
 
             IUriNode artistNode = gr.CreateUriNode(UriFactory.Create(artistLink));
             IUriNode hasHomePage = gr.CreateUriNode(UriFactory.Create("mo:homePage"));
-            ILiteralNode homePage = gr.CreateLiteralNode("http://dbpedia.org/resource/" + artist.Name);
+            IUriNode homePage = gr.CreateUriNode(UriFactory.Create("http://dbpedia.org/resource/" + artist.Name));
 
             gr.Assert(new Triple(artistNode, hasHomePage, homePage));
 
             NTriplesWriter ntwriter = new();
-            gr.BaseUri = new Uri("https://localhost:4200/artists/");
             ntwriter.Save(gr, "Artists.nt");
 
             return Ok();
         }
 
         [HttpGet("{id}")]
-        public Task<Artist> GetArtist(string id)
+        public Artist GetArtist(string id)
+        {
+            string dbpediaPage = GetDBpediaPage(id);
+            dbpediaPage = FormatResult(dbpediaPage);
+            string data = FormatToNtPage(dbpediaPage);
+
+            return QueryDbpedia(dbpediaPage, data);
+        }
+
+        private Artist QueryDbpedia(string resource, string data)
+        {
+            Artist artist = new();
+
+            var prefixes = new NamespaceMapper(true);
+            prefixes.AddNamespace("dbr", new Uri("http://dbpedia.org/resource/"));
+            prefixes.AddNamespace("dbp", new Uri("http://dbpedia.org/property/"));
+            prefixes.AddNamespace("dbo", new Uri("http://dbpedia.org/ontology/"));
+            string activeYearsStartYear = "activeYearsStartYear";
+            var queryBuilder =
+                QueryBuilder
+                .Select(new string[] { activeYearsStartYear })
+                .Where(
+                    (triplePatternBuilder) =>
+                    {
+                        triplePatternBuilder
+                            .Subject(new Uri(resource))
+                            .PredicateUri(new Uri("http://dbpedia.org/property/yearsActive"))
+                            .Object(activeYearsStartYear);
+                    });
+            queryBuilder.Prefixes = prefixes;
+
+            TripleStore store = new();
+            store.AddFromUri(new Uri(data));
+
+            InMemoryDataset ds = new(store, new Uri(data));
+            ISparqlQueryProcessor processor = new LeviathanQueryProcessor(ds);
+            SparqlQueryParser sparqlparser = new();
+
+            object results = processor.ProcessQuery(queryBuilder.BuildQuery());
+
+            if (results is SparqlResultSet rset)
+            {
+                artist.ActiveSince = FormatResult(rset.First().ToString());
+            }
+
+            string x = "x";
+            queryBuilder =
+                QueryBuilder
+                .Select(new string[] { x })
+                .Where(
+                    (triplePatternBuilder) =>
+                    {
+                        triplePatternBuilder
+                        .Subject(new Uri(resource))
+                        .PredicateUri(new Uri("http://dbpedia.org/ontology/abstract"))
+                        .Object(x);
+                    });
+            //.Filter((builder) => builder.Variable(x));
+
+            results = processor.ProcessQuery(queryBuilder.BuildQuery());
+
+            if (results is SparqlResultSet rset2)
+            {
+                artist.Description = FormatResult(rset2.First().ToString());
+            }
+
+            queryBuilder =
+                QueryBuilder
+                .Select(new string[] { x })
+                .Where(
+                    (triplePatternBuilder) =>
+                    {
+                        triplePatternBuilder
+                        .Subject(x)
+                        .PredicateUri(new Uri("http://dbpedia.org/ontology/artist"))
+                        .Object(new Uri(resource));
+                    });
+
+            results = processor.ProcessQuery(queryBuilder.BuildQuery());
+
+            if(results is SparqlResultSet rset3)
+            {
+                foreach (SparqlResult result in rset3)
+                {
+                    string formated = FormatResult(result.ToString());
+                    artist.Songs.Add(formated);
+                }
+            }
+
+            return artist;
+        }
+
+        private static string GetDBpediaPage(string id)
         {
             //Get the artist from the Artist.nt file
             string artistLink = "https://localhost:4200/artists/" + id;
@@ -63,67 +154,41 @@ namespace EventsAPI.Controllers
                     {
                         triplePatternBuilder
                             .Subject(new Uri(artistLink))
-                            .PredicateUri("mo:homePage")
+                            .PredicateUri(new Uri("mo:homePage"))
                             .Object(x);
                     });
             queryBuilder.Prefixes = prefixes;
 
+
             TripleStore tripleStore = new();
             tripleStore.LoadFromFile("Artists.nt");
 
-            InMemoryDataset ds = new(tripleStore);
-            ISparqlQueryProcessor processor = new LeviathanQueryProcessor(ds);
-            object res = processor.ProcessQuery(queryBuilder.BuildQuery());
+            object res = tripleStore.ExecuteQuery(queryBuilder.BuildQuery().ToString());
 
             if (res is SparqlResultSet rset)
             {
-                foreach (SparqlResult result in rset)
-                {
-                    Console.WriteLine(result.ToString());
-                }
+                return rset.First().ToString();
+            }
+            //TODO: throw error
+            return "";
+        }
+
+        private string FormatResult(string x)
+        {
+            int startInd = x.IndexOf('=') + 1;
+            if (x.Contains('^'))
+            {
+                int endInd = x.IndexOf('^');
+                return x[startInd..endInd].Trim();
             }
 
-
-            //query the web
-            //var prefixes2 = new NamespaceMapper(true);
-            //prefixes.AddNamespace("dbr", new Uri("http://dbpedia.org/resource/"));
-            //prefixes.AddNamespace("dbp", new Uri("http://dbpedia.org/property/"));
-            //prefixes.AddNamespace("dbo", new Uri("http://dbpedia.org/ontology/"));
-            //string activeYearsStartYear = "activeYearsStartYear";
-            //var queryBuilder2 =
-            //    QueryBuilder
-            //    .Select(new string[] { activeYearsStartYear })
-            //    .Where(
-            //        (triplePatternBuilder) =>
-            //        {
-            //            triplePatternBuilder
-            //                .Subject(new Uri("http://dbpedia.org/resource/Coldplay"))
-            //                .PredicateUri(new Uri("http://dbpedia.org/property/yearsActive"))
-            //                .Object(activeYearsStartYear);
-            //        });
-            //queryBuilder.Prefixes = prefixes;
-
-            //TripleStore store = new();
-            //store.AddFromUri(new Uri("https://dbpedia.org/data/Coldplay.nt"));
-
-            //InMemoryDataset ds = new(store, new Uri("https://dbpedia.org/data/Coldplay.nt"));
-            //ISparqlQueryProcessor processor = new LeviathanQueryProcessor(ds);
-            //SparqlQueryParser sparqlparser = new();
-
-            //object results = processor.ProcessQuery(queryBuilder.BuildQuery());
-
-            //if (results is SparqlResultSet rset2)
-            //{
-            //    foreach (SparqlResult result in rset2)
-            //    {
-            //        Console.WriteLine(result.ToString());
-
-            //    }
-            //}
-
-
-            return null;
-
+            return x[startInd..].Trim();
         }
+
+        private static string FormatToNtPage(string x)
+        {
+            return x.Replace("resource", "data") + ".nt";
+        }
+
     }
 }

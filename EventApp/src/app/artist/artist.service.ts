@@ -7,7 +7,7 @@ import { ICreateArtistView } from "./models/create-artist-view";
 })
 export class ArtistService {
 
-  private artistUrl = "https://localhost:7218/api/artists";
+  private artistUrl = "https://localhost:7287/api/artists";
 
   constructor(private httpClient: HttpClient) { }
 

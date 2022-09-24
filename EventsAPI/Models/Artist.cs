@@ -6,13 +6,13 @@ namespace EventsAPI.Models
     {
         public Artist()
         {
-            Songs = new List<IUriNode>();
+            Songs = new List<string>();
         }
         public string? Identifier { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public int ActiveSince { get; set; }
-        public IEnumerable<IUriNode> Songs { get; set; }
+        public string? ActiveSince { get; set; }
+        public IList<string> Songs { get; set; }
 
     }
 }
