@@ -30,7 +30,7 @@
     <td><a href="{{event.artistIdentifier}}">{{event.artistName}}</a></td>
     <td>{{event.date}}</td>
     <td><a href="{{event.hostSite}}">{{event.hostName}}</a></td>
-    <td><button (click)="viewEvent()">View</button></td>
+    <td><button (click)="viewEvent(event.identifier)">View</button></td>
     </tbody>
   </table>
 </div>

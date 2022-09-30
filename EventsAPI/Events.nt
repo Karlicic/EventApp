@@ -1,6 +1,7 @@
-<https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:title> "test" .
-<https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:description> "test" .
-<https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:date> "9/30/2022 8:10:00 AM"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:title> "Concert" .
+<https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:description>
+	"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." .
+	<https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:date> "9/30/2022 8:10:00 AM"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
 <https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dbp:price> "1000"^^<http://www.w3.org/2001/XMLSchema#double> .
 <https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <process-event:hasSourceHost> <https://localhost:4200/hosts/95916b53-3936-4495-bbbf-10ab6be88f1e> .
 <https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <mo:performer> <https://localhost:4200/artists/41a2b090-462e-4067-94d4-3536c092ee24> .

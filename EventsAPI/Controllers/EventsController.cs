@@ -104,141 +104,157 @@ namespace EventsAPI.Controllers
 
             return events;
         }
-        //[HttpGet]
-        //public async Task<Event> GetEvent(string identifier)
-        //{
 
-        //}
-
-        public static string GetArtistNameByIdentifier(string identifier)
+        [HttpGet("{id}")]
+        public async Task<EventDetailsViewModel> GetEvent(string id)
         {
-            string dbpediaPage = GetDBpediaPage(identifier);
-            var name = GetArtistName(dbpediaPage);
-            return name;
-        }
+            IGraph g = new Graph();
+            NTriplesParser ntparser = new();
+            ntparser.Load(g, "Events.nt");
 
-        public static string GetHostNameByIdentifier(string identifier)
-        {
-            var prefixes = new NamespaceMapper(true);
-            prefixes.AddNamespace("schema", new Uri("https://schema.org/"));
-
-            string x = "x";
-            var queryBuilder =
-                QueryBuilder
-                .Select(new string[] { x })
-                .Where(
-                    (triplePatternBuilder) =>
-                    {
-                        triplePatternBuilder
-                            .Subject(new Uri(identifier))
-                            .PredicateUri(new Uri("schema:name"))
-                            .Object(x);
-                    });
-            queryBuilder.Prefixes = prefixes;
+            var eventsLink = "https://localhost:4200/events/" + id;
 
 
-            TripleStore tripleStore = new();
-            tripleStore.LoadFromFile("Hosts.nt");
-
-            object res = tripleStore.ExecuteQuery(queryBuilder.BuildQuery().ToString());
-
-            if (res is SparqlResultSet rset && !rset.IsEmpty)
+            IEnumerable<Triple> results = g.GetTriplesWithSubject(g.CreateUriNode(UriFactory.Create(eventsLink)));
+            EventDetailsViewModel eventDetailsViewModel = new()
             {
-                var result =  rset.First().ToString();
-                return FormatResult(result);
-            }
+                Title = results.ElementAt(0).Object.ToString(),
+                Description = results.ElementAt(1).Object.ToString(),
+                Price = FormatResult(results.ElementAt(3).Object.ToString())
+        };
 
-            //TODO: throw an error if empty
-
-            return "";
+            return eventDetailsViewModel;
         }
 
-        public static string GetHostSiteByIdentifier(string identifier)
-        {
-            var prefixes = new NamespaceMapper(true);
-            prefixes.AddNamespace("org", new Uri("https://www.w3.org/TR/vocab-org/"));
-
-            string x = "x";
-            var queryBuilder =
-                QueryBuilder
-                .Select(new string[] { x })
-                .Where(
-                    (triplePatternBuilder) =>
-                    {
-                        triplePatternBuilder
-                            .Subject(new Uri(identifier))
-                            .PredicateUri(new Uri("org:hasSite"))
-                            .Object(x);
-                    });
-            queryBuilder.Prefixes = prefixes;
-
-
-            TripleStore tripleStore = new();
-            tripleStore.LoadFromFile("Hosts.nt");
-
-            object res = tripleStore.ExecuteQuery(queryBuilder.BuildQuery().ToString());
-
-            if (res is SparqlResultSet rset && !rset.IsEmpty)
-            {
-                var result = rset.First().ToString();
-                return FormatResult(result);
-            }
-
-            //TODO: throw an error if empty
-
-            return "";
-        }
-
-        private static string GetDBpediaPage(string identifier)
-        {
-            var prefixes = new NamespaceMapper(true);
-            prefixes.AddNamespace("mo", new Uri("http://purl.org/ontology/mo/"));
-
-            string x = "x";
-            var queryBuilder =
-                QueryBuilder
-                .Select(new string[] { x })
-                .Where(
-                    (triplePatternBuilder) =>
-                    {
-                        triplePatternBuilder
-                            .Subject(new Uri(identifier))
-                            .PredicateUri(new Uri("mo:homePage"))
-                            .Object(x);
-                    });
-            queryBuilder.Prefixes = prefixes;
-
-
-            TripleStore tripleStore = new();
-            tripleStore.LoadFromFile("Artists.nt");
-
-            object res = tripleStore.ExecuteQuery(queryBuilder.BuildQuery().ToString());
-
-            if (res is SparqlResultSet rset && !rset.IsEmpty)
-            {
-                return rset.First().ToString();
-            }
-            //TODO: throw an error
-            return "";
-        }
-
-        private static string GetArtistName(string resource)
-        {
-            return resource[(resource.LastIndexOf('/') + 1)..].Trim().Replace("_", " ");
-        }
-
-        private static string FormatResult(string x)
-        {
-            int startInd = x.IndexOf('=') + 1;
-            if (x.Contains('^'))
-            {
-                int endInd = x.IndexOf('^');
-                return x[startInd..endInd].Trim();
-            }
-
-            return x[startInd..].Trim();
-        }
-
-
+    public static string GetArtistNameByIdentifier(string identifier)
+    {
+        string dbpediaPage = GetDBpediaPage(identifier);
+        var name = GetArtistName(dbpediaPage);
+        return name;
     }
+
+    public static string GetHostNameByIdentifier(string identifier)
+    {
+        var prefixes = new NamespaceMapper(true);
+        prefixes.AddNamespace("schema", new Uri("https://schema.org/"));
+
+        string x = "x";
+        var queryBuilder =
+            QueryBuilder
+            .Select(new string[] { x })
+            .Where(
+                (triplePatternBuilder) =>
+                {
+                    triplePatternBuilder
+                        .Subject(new Uri(identifier))
+                        .PredicateUri(new Uri("schema:name"))
+                        .Object(x);
+                });
+        queryBuilder.Prefixes = prefixes;
+
+
+        TripleStore tripleStore = new();
+        tripleStore.LoadFromFile("Hosts.nt");
+
+        object res = tripleStore.ExecuteQuery(queryBuilder.BuildQuery().ToString());
+
+        if (res is SparqlResultSet rset && !rset.IsEmpty)
+        {
+            var result = rset.First().ToString();
+            return FormatResult(result);
+        }
+
+        //TODO: throw an error if empty
+
+        return "";
+    }
+
+    public static string GetHostSiteByIdentifier(string identifier)
+    {
+        var prefixes = new NamespaceMapper(true);
+        prefixes.AddNamespace("org", new Uri("https://www.w3.org/TR/vocab-org/"));
+
+        string x = "x";
+        var queryBuilder =
+            QueryBuilder
+            .Select(new string[] { x })
+            .Where(
+                (triplePatternBuilder) =>
+                {
+                    triplePatternBuilder
+                        .Subject(new Uri(identifier))
+                        .PredicateUri(new Uri("org:hasSite"))
+                        .Object(x);
+                });
+        queryBuilder.Prefixes = prefixes;
+
+
+        TripleStore tripleStore = new();
+        tripleStore.LoadFromFile("Hosts.nt");
+
+        object res = tripleStore.ExecuteQuery(queryBuilder.BuildQuery().ToString());
+
+        if (res is SparqlResultSet rset && !rset.IsEmpty)
+        {
+            var result = rset.First().ToString();
+            return FormatResult(result);
+        }
+
+        //TODO: throw an error if empty
+
+        return "";
+    }
+
+    private static string GetDBpediaPage(string identifier)
+    {
+        var prefixes = new NamespaceMapper(true);
+        prefixes.AddNamespace("mo", new Uri("http://purl.org/ontology/mo/"));
+
+        string x = "x";
+        var queryBuilder =
+            QueryBuilder
+            .Select(new string[] { x })
+            .Where(
+                (triplePatternBuilder) =>
+                {
+                    triplePatternBuilder
+                        .Subject(new Uri(identifier))
+                        .PredicateUri(new Uri("mo:homePage"))
+                        .Object(x);
+                });
+        queryBuilder.Prefixes = prefixes;
+
+
+        TripleStore tripleStore = new();
+        tripleStore.LoadFromFile("Artists.nt");
+
+        object res = tripleStore.ExecuteQuery(queryBuilder.BuildQuery().ToString());
+
+        if (res is SparqlResultSet rset && !rset.IsEmpty)
+        {
+            return rset.First().ToString();
+        }
+        //TODO: throw an error
+        return "";
+    }
+
+    private static string GetArtistName(string resource)
+    {
+        return resource[(resource.LastIndexOf('/') + 1)..].Trim().Replace("_", " ");
+    }
+
+    private static string FormatResult(string x)
+    {
+        int startInd = x.IndexOf('=') + 1;
+        if (x.Contains('^'))
+        {
+            int endInd = x.IndexOf('^');
+            return x[startInd..endInd].Trim();
+        }
+
+        return x[startInd..].Trim();
+    }
+
+
+}
 }

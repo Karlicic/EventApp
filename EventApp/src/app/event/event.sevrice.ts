@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { IEventDetailsView } from "./models/event-details-view";
 import { IEventListView } from "./models/event-list-view";
-import { IPaginatedEventView } from "./models/paginated-event-view";
 import { ISaveEventView } from "./models/save-event-view";
 
 @Injectable({
@@ -16,6 +16,10 @@ export class EventService {
   //get events
   getEvents() {
     return this.httpClient.get<IEventListView[] | undefined>(this.eventUrl).toPromise();
+  }
+
+  getEvent(identifier: string) {
+    return this.httpClient.get<IEventDetailsView>(this.eventUrl + '/' + identifier).toPromise();
   }
 
   //create

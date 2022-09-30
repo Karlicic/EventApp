@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { EventListComponent } from '../event-list/event-list.component';
+import { IEventDetailsView } from '../models/event-details-view';
 
 @Component({
   selector: 'app-event-details',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventDetailsComponent implements OnInit {
 
-  constructor() { }
+  eventDetails!: IEventDetailsView | undefined;
+
+  constructor(private dialogRef: MatDialogRef<EventListComponent>) { }
 
   ngOnInit(): void {
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 
 }

@@ -1,1 +1,7 @@
-<p>event-details works!</p>
+<div class="my-3" *ngIf="eventDetails != null">
+  <h2 class="row">{{eventDetails.title}}</h2>
+  <p class="row">{{eventDetails.description}}</p>
+  <p class="row">Price: {{eventDetails.price}} dollars.</p>
+  <button (click)="close()" >Close</button>
+</div>
+

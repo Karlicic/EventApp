@@ -3,7 +3,6 @@ import { EventService } from '../event.sevrice';
 import { MatDialog } from '@angular/material/dialog';
 import { SaveEventComponent } from '../save-event/save-event.component';
 import { IEventListView } from '../models/event-list-view';
-import { Router } from '@angular/router';
 import { EventDetailsComponent } from '../event-details/event-details.component';
 
 @Component({
@@ -35,11 +34,18 @@ export class EventListComponent implements OnInit {
 
   }
 
-  viewEvent(identifier?: string) {
+  async viewEvent(identifier?: string) {
     let dialogRef = this.matDialog.open(EventDetailsComponent, {
       width: '600px',
       height: '350px'
     });
+    let id = identifier?.substring(identifier.lastIndexOf('/') + 1);
+    if (id == undefined) {
+      return;
+    }
+    let myEvent = await this.eventService.getEvent(id);
+    dialogRef.componentInstance.eventDetails = myEvent;
+
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.loadEventList();
