@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarLayoutComponent implements OnInit {
 
-  title = 'MyApp';
+  title = 'MyEvent';
   menu!: any;
 
   constructor() { }

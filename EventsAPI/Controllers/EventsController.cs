@@ -31,8 +31,6 @@ namespace EventsAPI.Controllers
             gr.NamespaceMap.AddNamespace("process-event", new Uri("http://w3id.org/sepses/vocab/event/process-event#"));
             gr.NamespaceMap.AddNamespace("mo", new Uri("http://purl.org/ontology/mo/"));
 
-
-
             string guid = Guid.NewGuid().ToString();
 
             string eventLink = "https://localhost:4200/events/" + guid;
