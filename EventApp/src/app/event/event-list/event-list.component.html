@@ -1,9 +1,9 @@
-<div class="row">
+<div class="row mx-2">
   <div class="col my-3">
     <h1>{{title}}</h1>
   </div>
 </div>
-<div class="row d-flex align-items-center">
+<div class="row mx-2 d-flex align-items-center">
   <div class="col-8">
     <form class="example-form">
       <mat-form-field class="example-full-width" appearance="fill">
@@ -15,4 +15,22 @@
   <div class="col-4 d-flex justify-content-end">
     <button mat-raised-button color="primary" class="btn-size" (click)="createEvent()">Create Event</button>
   </div>
+</div>
+<div class="row mx-3">
+  <table>
+    <thead>
+    <th>Title</th>
+    <th>Artist</th>
+    <th>Date</th>
+    <th>Host</th>
+    <th>Action</th>
+    </thead>
+    <tbody *ngFor="let event of events">
+    <td>{{event.title}}</td>
+    <td><a href="{{event.artistIdentifier}}">{{event.artistName}}</a></td>
+    <td>{{event.date}}</td>
+    <td><a href="{{event.hostSite}}">{{event.hostName}}</a></td>
+    <td><button (click)="viewEvent()">View</button></td>
+    </tbody>
+  </table>
 </div>

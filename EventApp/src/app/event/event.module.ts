@@ -14,6 +14,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 
 
@@ -24,7 +25,8 @@ import { MatSelectModule } from '@angular/material/select';
   declarations: [
     EventComponent,
     EventListComponent,
-    SaveEventComponent
+    SaveEventComponent,
+    EventDetailsComponent
   ],
   imports: [
     CommonModule,

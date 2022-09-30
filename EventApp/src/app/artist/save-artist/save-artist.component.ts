@@ -13,6 +13,7 @@ export class SaveArtistComponent implements OnInit {
   name!: string;
   saveButtonFlag: boolean = false;
   errorStatus!: any;
+  guid!: string;
 
   constructor(private router: Router, private artistService: ArtistService) { }
 
@@ -24,7 +25,13 @@ export class SaveArtistComponent implements OnInit {
     const artist = { name: this.name };
     var response = await this.artistService.createArtist(artist);
     //TODO: Error checking
-    this.router.navigate(['/artist-details']);
+
+    if (response == undefined) {
+      return;
+    }
+    this.guid = response;
+
+    this.router.navigate(['/artists/' + this.guid]);
   }
 
   changeInfo(event: any) {

@@ -32,6 +32,14 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field appearance="fill" class="col-md-12">
+      <mat-label>Artist</mat-label>
+      <mat-select [(ngModel)]="artist" name="artist" id="artist" (selectionChange)="changeInfo($event)" required>
+        <mat-option *ngFor="let ar of artists" [value]="ar.identifier">
+          {{ar.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div mat-dialog-actions>
     <button mat-raised-button color="primary" class="btn-size" type="submit" [disabled]="!f.valid || saveButtonFlag">Save</button>&nbsp;&nbsp;

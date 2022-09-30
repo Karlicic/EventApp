@@ -1,1 +1,13 @@
-<p>artist-details works!</p>
+<div class="m-3">
+  <h2>{{artist.name}}</h2>
+  <p>{{artist.description}}</p>
+  <br />
+  <p *ngIf="artist.activeSince != null">{{artist.name}} has been active since {{artist.activeSince}}.</p>
+  <div *ngIf="artist.songs != null">
+    <h3>Songs:</h3>
+    <ul class="my-1" *ngFor="let song of artist.songs">
+      <li *ngIf="song != ''">{{song}}</li>
+    </ul>
+  </div>
+</div>
+

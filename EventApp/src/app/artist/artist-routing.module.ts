@@ -10,7 +10,7 @@ const routes: Routes = [
     component: ArtistComponent,
     children: [
       { path: 'save-artist', loadChildren: () => import('./save-artist/save-artist.module').then(m => m.SaveArtistModule) },
-      { path: 'artist-details', loadChildren: () => import('./artist-details/artist-details.module').then(m => m.ArtistDetailsModule) }
+      { path: ':id', loadChildren: () => import('./artist-details/artist-details.module').then(m => m.ArtistDetailsModule) }
     ]
   }
 ]

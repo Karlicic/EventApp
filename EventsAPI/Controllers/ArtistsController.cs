@@ -15,7 +15,7 @@ namespace EventsAPI.Controllers
     public class ArtistsController : ControllerBase
     {
         [HttpPost]
-        public IActionResult CreateArtist(CreateArtistViewModel artist)
+        public string CreateArtist(CreateArtistViewModel artist)
         {
             IGraph gr = new Graph();
 
@@ -25,7 +25,7 @@ namespace EventsAPI.Controllers
                 ntparser.Load(gr, "Artists.nt");
             }
 
-            artist.Name = artist.Name.Trim().Replace(" ", "_");
+            artist.Name = artist?.Name?.Trim().Replace(" ", "_");
 
             gr.NamespaceMap.AddNamespace("mo", new Uri("http://purl.org/ontology/mo/"));
             string guid = Guid.NewGuid().ToString();
@@ -41,22 +41,50 @@ namespace EventsAPI.Controllers
             NTriplesWriter ntwriter = new();
             ntwriter.Save(gr, "Artists.nt");
 
-            return Ok();
+            return guid;
         }
 
         [HttpGet("{id}")]
         public Artist GetArtist(string id)
         {
-            string dbpediaPage = GetDBpediaPage(id);
+            Artist artist = new();
+
+            var artistLink = "https://localhost:4200/artists/" + id;
+            artist.Identifier = artistLink;
+
+            string dbpediaPage = GetDBpediaPage(artistLink);
             dbpediaPage = FormatResult(dbpediaPage);
             string data = FormatToNtPage(dbpediaPage);
 
-            return QueryDbpedia(dbpediaPage, data);
+            return QueryDbpedia(artist, dbpediaPage, data);
         }
 
-        private Artist QueryDbpedia(string resource, string data)
+        [HttpGet]
+        public async Task<IEnumerable<ArtistListViewModel>> GetArtists()
         {
-            Artist artist = new();
+            IEnumerable<ArtistListViewModel> artists = new List<ArtistListViewModel>();
+            IGraph g = new Graph();
+            NTriplesParser ntparser = new();
+            ntparser.Load(g, "Artists.nt");
+
+            IEnumerable<Triple> results = g.GetTriplesWithPredicate(g.CreateUriNode(UriFactory.Create("mo:homePage")));
+
+            foreach (Triple t in results)
+            {
+                ArtistListViewModel artistListViewModel = new();
+                artistListViewModel.Identifier = t.Subject.ToString();
+                artistListViewModel.Name = GetArtistName(t.Object.ToString());
+
+                artists = artists.Append(artistListViewModel).ToList();
+            }
+
+            return artists;
+        }
+
+        private Artist QueryDbpedia(Artist artist, string resource, string data)
+        {
+
+            artist.Name = GetArtistName(resource);
 
             var prefixes = new NamespaceMapper(true);
             prefixes.AddNamespace("dbr", new Uri("http://dbpedia.org/resource/"));
@@ -85,7 +113,7 @@ namespace EventsAPI.Controllers
 
             object results = processor.ProcessQuery(queryBuilder.BuildQuery());
 
-            if (results is SparqlResultSet rset)
+            if (results is SparqlResultSet rset && !rset.IsEmpty)
             {
                 artist.ActiveSince = FormatResult(rset.First().ToString());
             }
@@ -101,12 +129,12 @@ namespace EventsAPI.Controllers
                         .Subject(new Uri(resource))
                         .PredicateUri(new Uri("http://dbpedia.org/ontology/abstract"))
                         .Object(x);
-                    });
-            //.Filter((builder) => builder.Variable(x));
+                    })
+                .Filter((builder) => builder.LangMatches(builder.Lang(builder.Variable("x")), "en"));
 
             results = processor.ProcessQuery(queryBuilder.BuildQuery());
 
-            if (results is SparqlResultSet rset2)
+            if (results is SparqlResultSet rset2 && !rset2.IsEmpty)
             {
                 artist.Description = FormatResult(rset2.First().ToString());
             }
@@ -125,23 +153,20 @@ namespace EventsAPI.Controllers
 
             results = processor.ProcessQuery(queryBuilder.BuildQuery());
 
-            if(results is SparqlResultSet rset3)
+            if (results is SparqlResultSet rset3 && !rset3.IsEmpty)
             {
                 foreach (SparqlResult result in rset3)
                 {
                     string formated = FormatResult(result.ToString());
-                    artist.Songs.Add(formated);
+                    string songName = GetSongName(formated);
+                    artist.Songs.Add(songName);
                 }
             }
 
             return artist;
         }
-
-        private static string GetDBpediaPage(string id)
+        private static string GetDBpediaPage(string identifier)
         {
-            //Get the artist from the Artist.nt file
-            string artistLink = "https://localhost:4200/artists/" + id;
-
             var prefixes = new NamespaceMapper(true);
             prefixes.AddNamespace("mo", new Uri("http://purl.org/ontology/mo/"));
 
@@ -153,7 +178,7 @@ namespace EventsAPI.Controllers
                     (triplePatternBuilder) =>
                     {
                         triplePatternBuilder
-                            .Subject(new Uri(artistLink))
+                            .Subject(new Uri(identifier))
                             .PredicateUri(new Uri("mo:homePage"))
                             .Object(x);
                     });
@@ -165,15 +190,14 @@ namespace EventsAPI.Controllers
 
             object res = tripleStore.ExecuteQuery(queryBuilder.BuildQuery().ToString());
 
-            if (res is SparqlResultSet rset)
+            if (res is SparqlResultSet rset && !rset.IsEmpty)
             {
                 return rset.First().ToString();
             }
-            //TODO: throw error
+            //TODO: throw an error
             return "";
         }
-
-        private string FormatResult(string x)
+        private static string FormatResult(string x)
         {
             int startInd = x.IndexOf('=') + 1;
             if (x.Contains('^'))
@@ -184,11 +208,50 @@ namespace EventsAPI.Controllers
 
             return x[startInd..].Trim();
         }
-
         private static string FormatToNtPage(string x)
         {
             return x.Replace("resource", "data") + ".nt";
         }
+        private static string GetSongName(string resource)
+        {
+            string data = FormatToNtPage(resource);
+            string x = "x";
+            var queryBuilder =
+                QueryBuilder
+                .Select(new string[] { x })
+                .Where(
+                    (triplePatternBuilder) =>
+                    {
+                        triplePatternBuilder
+                        .Subject(new Uri(resource))
+                        .PredicateUri(new Uri("http://dbpedia.org/property/name"))
+                        .Object(x);
+                    });
 
+            TripleStore store = new();
+            store.AddFromUri(new Uri(data));
+
+            InMemoryDataset ds = new(store, new Uri(data));
+            ISparqlQueryProcessor processor = new LeviathanQueryProcessor(ds);
+            SparqlQueryParser sparqlparser = new();
+
+            object results = processor.ProcessQuery(queryBuilder.BuildQuery());
+
+            string result = "";
+
+            if (results is SparqlResultSet rset && !rset.IsEmpty)
+            {
+                result = FormatResult(rset.First().ToString());
+                if (result.Contains('@'))
+                {
+                    result = result[..result.IndexOf('@')];
+                }
+            }
+            return result;
+        }
+        private static string GetArtistName(string resource)
+        {
+            return resource[(resource.LastIndexOf('/')+1)..].Trim().Replace("_", " ");
+        }
     }
 }
