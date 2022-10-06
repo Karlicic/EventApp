@@ -1,19 +1,6 @@
 <https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:title> "Concert" .
-<https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:description>
-	"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." .
-	<https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:date> "9/30/2022 8:10:00 AM"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:description> "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." .
+<https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dc:date> "9/30/2022 8:10:00 AM"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
 <https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <dbp:price> "1000"^^<http://www.w3.org/2001/XMLSchema#double> .
 <https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <process-event:hasSourceHost> <https://localhost:4200/hosts/95916b53-3936-4495-bbbf-10ab6be88f1e> .
 <https://localhost:4200/events/f0dc7c5c-7427-4750-98ec-773249d44757> <mo:performer> <https://localhost:4200/artists/41a2b090-462e-4067-94d4-3536c092ee24> .
-<https://localhost:4200/events/849b2ca4-8baa-456d-bf8b-8989cee5bb84> <dc:title> "Event1" .
-<https://localhost:4200/events/849b2ca4-8baa-456d-bf8b-8989cee5bb84> <dc:description> "Opis" .
-<https://localhost:4200/events/849b2ca4-8baa-456d-bf8b-8989cee5bb84> <dc:date> "10/8/2022 10:13:00 PM"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-<https://localhost:4200/events/849b2ca4-8baa-456d-bf8b-8989cee5bb84> <dbp:price> "3445"^^<http://www.w3.org/2001/XMLSchema#double> .
-<https://localhost:4200/events/849b2ca4-8baa-456d-bf8b-8989cee5bb84> <process-event:hasSourceHost> <https://localhost:4200/hosts/72e8e626-aee8-4ef2-93f5-2378f0234dad> .
-<https://localhost:4200/events/849b2ca4-8baa-456d-bf8b-8989cee5bb84> <mo:performer> <https://localhost:4200/artists/9ef6c9cb-8cc7-4ed9-9200-c9290f99c6e2> .
-<https://localhost:4200/events/555c975d-ff77-4519-9f65-63895a037c01> <dc:title> "Event2" .
-<https://localhost:4200/events/555c975d-ff77-4519-9f65-63895a037c01> <dc:description> "Test" .
-<https://localhost:4200/events/555c975d-ff77-4519-9f65-63895a037c01> <dc:date> "10/8/2022 8:30:00 AM"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
-<https://localhost:4200/events/555c975d-ff77-4519-9f65-63895a037c01> <dbp:price> "100"^^<http://www.w3.org/2001/XMLSchema#double> .
-<https://localhost:4200/events/555c975d-ff77-4519-9f65-63895a037c01> <process-event:hasSourceHost> <https://localhost:4200/hosts/72e8e626-aee8-4ef2-93f5-2378f0234dad> .
-<https://localhost:4200/events/555c975d-ff77-4519-9f65-63895a037c01> <mo:performer> <https://localhost:4200/artists/bf644fd1-2c38-49fd-8d2e-beb49ae950e3> .

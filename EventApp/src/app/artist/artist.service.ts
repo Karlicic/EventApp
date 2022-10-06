@@ -4,6 +4,10 @@ import { ArtistDetailView } from "./models/artist-detail-view";
 import { IArtistListView } from "./models/artist-list-view";
 import { ICreateArtistView } from "./models/create-artist-view";
 
+const requestOptions: Object = {
+  responseType: 'text'
+}
+
 @Injectable({
   providedIn: "root"
 })
@@ -14,7 +18,7 @@ export class ArtistService {
   constructor(private httpClient: HttpClient) { }
 
   createArtist(artist: ICreateArtistView) {
-    return this.httpClient.post<string>(this.artistUrl, artist).toPromise();
+    return this.httpClient.post<string>(this.artistUrl, artist, requestOptions).toPromise();
   }
 
   getArtist(id: string | null) {

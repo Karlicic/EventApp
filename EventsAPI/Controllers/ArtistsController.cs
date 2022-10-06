@@ -15,7 +15,7 @@ namespace EventsAPI.Controllers
     public class ArtistsController : ControllerBase
     {
         [HttpPost]
-        public string CreateArtist(CreateArtistViewModel artist)
+        public ActionResult CreateArtist(CreateArtistViewModel artist)
         {
             IGraph gr = new Graph();
 
@@ -41,7 +41,7 @@ namespace EventsAPI.Controllers
             NTriplesWriter ntwriter = new();
             ntwriter.Save(gr, "Artists.nt");
 
-            return guid;
+            return Content(guid);
         }
 
         [HttpGet("{id}")]
